@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+    
+<main class="content main">
+    
+    <div>
+        <h1>Cart</h1>
+        <div class="cart-element framed">
+            <div> 
+                <!-- A div to add padding around the table and change background color. -->
+            {% if cart is defined %} 
+            <table class="cart-table">
+                <thead>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Count</th>
+                    <th>Item price</th>
+                    <th>Discount</th>
+                    <th>Price</th>
+                    <th class="table-end">Cancel</th>
+                </thead>
+                <tbody>
+                    {% for item in cart.values() %} 
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.count }}</td>
+                        <td>{{ item.price}}</td>
+                        <td class="discount">{{item.discount}}</td>
+                        <td>{{ item.total }}</td> 
+                        <td class="table-end">
+                            <button>X</button>
+                        </td>
+                    </tr> 
+                    {% endfor %} 
+
+                    
+                    <tr>
+                        <td>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                        <td>{{ grand_total }}</td>
+                        
+                        <td></td>
+                    </tr>
+                    
+
+                </tbody>
+            </table>
+            {% endif %} 
+            </div>
+        </div>
+        <h1>Checkout</h1>
+        <div class="cart-element framed">
+            <div>
+            <form method="POST" action="/checkout2">
+                <fieldset class="framed">
+                    <legend>Billing details</legend>
+                    <label>First Name
+                    <input readonly value = "{{firstname}}" type="text" name="first_name" id="first_name"></label>
+                    <label>Last Name
+                    <input readonly value = "{{lastname}}" type="text" name="last_name" id="last_name"></label>
+                    <label>Email
+                    <input readonly value = "{{email}}" type="email" name="email" id="email"></label>
+                </fieldset>
+                <fieldset class="framed">
+                    <legend>Delivery address</legend>
+                    <label>Street
+                    <input readonly value = "{{street}}" type="text" name="street" id="street"></label>
+                    <label>City
+                    <input readonly value = "{{city}}" type="text" name="city" id="city"></label>
+                    <label>Postal Code
+                    <input readonly value = "{{postal}}" type="text" min="0" name="postal" id="postal"></label>
+                </fieldset>
+                <fieldset class="framed flexbox space_between">
+                        <legend>AGB</legend>
+                        
+                        <label for="AGB" class="checkboxlabel"><input disabled type="checkbox" name="AGB" id="AGB" checked>I agree to the general terms of service.</label>
+                </fieldset>
+                
+                <fieldset class="framed flexbox space_between">
+                    <legend>Submit order</legend>
+                    
+                    <label for="AGB" class="checkboxlabel">Check cart and address above and submit</label>
+                    <button type="submit">Submit</button>
+            </fieldset>
+            </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="content main">
+
+
+    <aside>
+        <a href="cart.html">
+        <h2>Cart</h2>
+        {% if cart is defined %}
+            <table class="cart-table">
+                <tbody>
+                    {% for item in cart.values() %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.size }}</td>
+                        <td class="table-end">{{ item.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </a>
+    </aside>
+
+
+<!--
+    <aside>
+        <a href="cart.html">
+        <h2>Cart</h2>
+        {% if cart is defined %}
+            <table class="cart-table">
+                <tbody>
+                    {% for pid, item_info in cart.items() %} {% for item in item_info.sizes%}
+                    <tr>
+                        <td>PID: {{pid}}</td>
+                        <td>{{ item.size }}</td>
+                        <td class="table-end">{{ item.count }}</td>
+                    </tr>
+                    {% endfor %} {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </a>
+    </aside>
+-->
+
+
+    <div>
+        <div class="banner">
+            <img src="/static/images/boxes.jpg" alt="some boxes">
+            <span class="text">SALE</span>
+        </div>
+        <div class="article-box">
+            {% for pid, product in products.items() %}
+            <article>
+                <a href="/product/{{pid}}">
+                    <img src="{{ '/static/images/' + product.img }}" />
+                    {% if product.discount > 0 %}
+                    <div class="discount-badge">{{ product.discount }}%</div>
+                    {% endif %}
+                    <h3><div class="price">{{ product.price }},-</div>{{ product.title }}</h3>
+
+                    <p>{{ product.description }}</p>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</main class="content main">
+{% endblock %}

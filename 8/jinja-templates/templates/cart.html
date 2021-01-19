@@ -1,0 +1,90 @@
+    {% extends "base.html" %}
+    {% block content %}
+        
+    <main class="content main">
+        
+        <div>
+            <h1>Cart</h1>
+            <div class="cart-element framed">
+                <div> 
+                    <!-- A div to add padding around the table and change background color. -->
+                {% if cart is defined %} 
+                <table class="cart-table">
+                    <thead>
+                        <th>Product</th>
+                        <th>Size</th>
+                        <th>Count</th>
+                        <th>Item price</th>
+                        <th>Discount</th>
+                        <th>Price</th>
+                        <th class="table-end">Cancel</th>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.values() %} 
+                        <tr>
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.count }}</td>
+                            <td>{{ item.price}}</td>
+                            <td class="discount">{{item.discount}}</td>
+                            <td>{{ item.total }}</td> 
+                            <td class="table-end">
+                                <button>X</button>
+                            </td>
+                        </tr> 
+                        {% endfor %} 
+
+                        
+                        <tr>
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                            <td>{{ grand_total }}</td>
+                            
+                            <td></td>
+                        </tr>
+                        
+
+                    </tbody>
+                </table>
+                {% endif %} 
+                </div>
+            </div>
+            <h1>Checkout</h1>
+            <div class="cart-element framed">
+                <div>
+                <form method="POST" action="/checkout">
+                    <fieldset class="framed">
+                        <legend>Billing details</legend>
+                        <label>First Name
+                        <input type="text" name="first_name" id="first_name" required></label>
+                        <label>Last Name
+                        <input type="text" name="last_name" id="last_name" required></label>
+                        <label>Email
+                        <input type="email" name="email" id="email" required></label>
+                    </fieldset>
+                    <fieldset class="framed">
+                        <legend>Delivery address</legend>
+                        <label>Street
+                        <input type="text" name="street" id="street" required></label>
+                        <label>City
+                        <input type="text" name="city" id="city" required></label>
+                        <label>Postal Code
+                        <input type="text" min="0" name="postal" id="postal" required></label>
+                    </fieldset>
+                    <fieldset class="framed flexbox space_between">
+                            <legend>Submit order</legend>
+                            
+                            <label for="AGB" class="checkboxlabel"><input type="checkbox" name="AGB" id="AGB" required>I agree to the general terms of service.</label>
+                            <button type="submit">Submit</button>
+                    </fieldset>
+                </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% endblock %}

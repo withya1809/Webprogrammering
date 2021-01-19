@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: pink;
+  color: black;
+  width: 100%;
+  height: 100vh;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+
+}
+
+#player1{
+  display: flex;
+  flex-direction: column;
+}
+
+#player2{
+  display: flex;
+  flex-direction: column;
+}
+
+#memory{
+  top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: auto;
+  width: 800px;
+  max-width: 1000px;
+  justify-content: center;
+}
+
+.outer {
+    position: relative;
+    float: left;
+    width: 100px;
+    height: 150px;
+}
+
+.card.back {
+    z-index: 2;
+    backface-visibility: hidden;
+}
+
+.card.front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    width: 90%;
+}
+
+.cardd {
+    width: 100px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px solid black;
+    backface-visibility: hidden;
+    margin: 5px;
+    transition: transform 0.5s;
+    margin: 1px;
+}
+
+.clearleft {
+    clear: left;
+}
+
+.card {
+    border: 2px solid black;
+    background-color: white;
+    transition: transform 1s;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}

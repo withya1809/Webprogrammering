@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Webshop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}">
+</head>
+<body>
+    {# NOTE: This is the file that contains your layout. All other template files should extend this one. #}
+
+    <header>
+        <div class="content">
+            <div id="logo">
+                <h1>MySocks</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+                    <li><a href="/product/1"><i class="fa fa-percent"></i></a></li>
+                    <li><a href="/cart"><i class="fa fa-shopping-cart"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+        
+    {% block content %}
+    <main class="content main"></main>
+    {% endblock %}
+
+    <footer class="flexbox">
+        <div class="contact">
+            <span class="strong">Customer service:</span> |
+            +47 321 09 87654 |
+            <a href="#">contact@noreply.com</a>
+        </div>
+    </footer class="flexbox">
+</body>
+</html>

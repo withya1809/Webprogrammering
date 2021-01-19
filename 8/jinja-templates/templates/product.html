@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="content main">
+
+  
+    <aside>
+        <a href="cart.html">
+        <h2>Cart</h2>
+        {% if cart is defined %}
+            <table class="cart-table">
+                <tbody>
+                    {% for item in cart.values() %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.size }}</td>
+                        <td class="table-end">{{ item.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </a>
+    </aside>
+     
+<!--
+    <aside>
+        <a href="cart.html">
+        <h2>Cart</h2>
+        {% if cart is defined %}
+            <table class="cart-table">
+                <tbody>
+                    {% for pid, item_info in cart.items() %} {% for item in item_info.sizes%}
+                    <tr>
+                        <td>PID: {{pid}}</td>
+                        <td>{{ item.size }}</td>
+                        <td class="table-end">{{ item.count }}</td>
+                    </tr>
+                    {% endfor %} {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </a>
+    </aside>
+-->
+    <div>
+        <div class="framed flexbox">
+            <div class="img-box">
+                <img src="{{ '/static/images/' + product.img }}" alt="Socks" width="280px"/>
+                {% if product.discount > 0 %}
+                    <div class="discount-badge">{{ product.discount }}%</div>
+                    {% endif %}
+            </div>
+            <div class="product_right">
+                <div class="product_info">
+                    <h3><div class="price">{{ product.price }},-</div>{{ product.title }}</h3>
+    
+                    <p>{{ product.description }}</p>
+                </div>    
+                <div class="product_form">
+                    <form method ="POST" action="/add" id="product_form">
+                        
+                        <input type="hidden" name="pid" value="{{product.pid}}">
+                        <label for="count">Count: 
+                        <input type="number" min="0" name="count" size="3" width="3" class="small64" value="0"></label>
+                        <br>
+                        <label for="size">Size: 
+                        <select name="size">
+                            <option value="S">36-38</option>
+                            <option value="M">39-41</option>
+                            <option value="L">42-44</option>
+                            <option value="XL">45-47</option>
+                        </select></label>
+                        <br>
+                        <label for="price">Price: 
+                            <input disabled name="price" value="{{product.total}}" class="small64"></label>
+                        
+                        
+                        
+                    </form>
+                </div>
+                <div class="product_submit">
+                    <button type="submit" form="product_form">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    
+        <h1>Details</h1>
+    
+        <div class="framed">
+            {{ product.details }}
+        </div>
+    </div>
+</main class="content main">
+{% endblock %}
