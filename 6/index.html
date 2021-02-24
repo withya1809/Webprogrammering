@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+   <!-- <script src="app.js"></script>-->
+    <link rel="stylesheet" href="style.css">
+    <title>MemoryGame</title>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+          <div id = "player1">
+          </div>
+
+          <div id="memory">
+            <h1>Press 'ENTER' to start!</h1>
+
+          </div>
+
+          <div id="player2">
+          </div>
+
+    </div>
+
+    <script>
+    //////////////// GLOBALE VARIABLES ////////////////////////////////////////
+
+    var MatchList = [];
+    var GuessedCards = [];
+
+
+
+    //////////////////// PLAYER INFORMATION ////////////////////////////////////
+      var player1 = new Vue({
+        el:"#player1",
+        template:`
+        <div id = "player1">
+          <h2 style="color:blue;" v-if="yourTurn"> YOUR TURN</h2>
+          <h2>{{playerNr}}</h2>
+          <h2>Flips: {{flipCount}}</h2>
+          <h2>Matches: {{points}}</h2>
+        </div>
+        `,
+        data:{
+          yourTurn: true,
+          playerNr: "PLAYER ONE",
+          flipCount: 0,
+          points: 0
+        }
+
+      });
+
+      var player2 = new Vue({
+        el:"#player2",
+        template:`
+        <div id = "player1">
+          <h2 style="color:blue;" v-if="yourTurn"> YOUR TURN</h2>
+          <h2>{{playerNr}}</h2>
+          <h2>Flips: {{flipCount}}</h2>
+          <h2>Macthes: {{points}}</h2>
+        </div>
+        `,
+        data:{
+          yourTurn: false,
+          playerNr: "PLAYER TWO",
+          flipCount: 0,
+          points: 0
+        }
+      });
+
+    /////////////////////////// MAIN FUNCTION - STARTS GAME BY CLICKING ///////////////////////////////
+    window.addEventListener("keyup", ev => {
+        if (ev.keyCode === 13) {
+            layCards();
+        }
+
+
+
+    })
+
+    /////////////////////////// SHUFFLE ARRAY /////////////////////////////////
+    function arrayShuffle(arr) {
+        let newPos, temp;
+        for (let i = arr.length - 1; i > 0; i--) {
+            newPos = Math.floor(Math.random() * (i + 1));
+            temp = arr[i];
+            arr[i] = arr[newPos];
+            arr[newPos] = temp;
+        }
+        return
+    };
+
+
+    ///////////////////////// LAY CARDS ////////////////////////////////////////
+    function layCards() {
+
+        let memoGame = document.querySelector("#memory");
+        var images = ['black.jpg','blue.jpg','green.jpg','orange.png','pink.jpeg','purple.png','red.jpg','yellow.png','black.jpg','blue.jpg','green.jpg','orange.png','pink.jpeg','purple.png','red.jpg','yellow.png'];
+        arrayShuffle(images);
+
+
+        memoGame.innerHTML = "";
+
+        for (let i = 0; i < 16; i++) {
+
+
+
+
+            let memoDiv = document.createElement("div");
+            //https://stackoverflow.com/questions/34950867/vue-js-how-to-set-a-unique-id-for-each-component-instance
+            var gameCards = new Vue({
+                template: `
+                <div class="memory">
+                    <div class="outer" v-on:click="flip($event)">
+                        <div class="card front" v-bind:style="{ transform:flipped? 'rotateZ(1080deg)': 'none', display: removed? 'none': ''}">
+                            <img :src="img">
+                        </div>
+                        <div class="card back" v-bind:style="{ transform: flipped? 'rotateY(-180deg)': 'none', display: removed? 'none':''}"></div>
+                    </div>
+                </div>
+                `,
+
+                data: {
+                  img: images[i],
+                  flipped: false,
+                  matched: false,
+                  removed: false,
+                },
+
+                methods: {
+                    flip: function(o) {
+                        var em = o;
+
+                        if (this.flipped) {
+                            this.flipped = false;
+                        } else {
+                            this.flipped = true;
+
+                            if (player1.yourTurn){
+                              player1.flipCount += 1;
+                            }
+
+                            if (player2.yourTurn) {
+                              player2.flipCount += 1;
+                            }
+
+                            MatchList.push(this);
+                            checkMatch();
+
+
+                            /// GAME OVER /////////////
+                            if (GuessedCards.length == 16) {
+
+                              var gameover = new Vue({
+                                el: "#memory",
+                                template:`
+                                <div id = "memory">
+                                  <h1> GAME OVER </h1>
+                                </div>
+                                `
+                              });
+
+                            }
+
+
+
+
+
+                        }
+                    },
+                }
+            });
+            memoGame.appendChild(memoDiv);
+            gameCards.$mount(memoDiv);
+
+        };
+
+        memoGame.style.width = 115 * 4 + 'px';
+    }
+
+    //////////////////// CHECK IF CARDS MATCH + GIVE POINTS /////////////////////////////////
+    function checkMatch() {
+
+        card_1 = MatchList[0];
+        card_2 = MatchList[1];
+        card_3 = MatchList[2];
+        card_4 = MatchList[3];
+
+        if (MatchList.length === 2) {
+
+            if (card_1.img === card_2.img) {
+
+              GuessedCards.push(card_1.img);
+              GuessedCards.push(card_2.img);
+
+
+              this.flipped = true;
+              this.matched = true;
+              setTimeout(function() { card_1.removed = true }, 1000);
+              setTimeout(function() { card_2.removed = true; player1.points += 1; }, 1000);
+
+
+              MatchList.splice(0,2);
+              }
+
+
+
+            if (card_1.img !== card_2.img){
+              if (card_1.flipped == true && card_2.flipped == true) {
+                  setTimeout(function() { card_1.flipped = false }, 1000);
+                  setTimeout(function() { card_2.flipped = false; }, 1000);
+                  setTimeout(function() {
+                    if (player1.yourTurn = true) {
+                    player1.yourTurn = false;
+                    player2.yourTurn = true;
+                    }
+                  }, 1000);
+
+
+              }
+            }
+
+        }
+
+        if (MatchList.length === 4){
+          if (card_3.img === card_4.img){
+
+            GuessedCards.push(card_3.img);
+            GuessedCards.push(card_4.img);
+
+
+            this.flipped = true;
+            this.matched = true;
+            setTimeout(function() { card_3.removed = true; }, 1000);
+            setTimeout(function() { card_4.removed = true; player2.points += 1; }, 1000);
+
+
+            MatchList.splice(2,2);
+
+
+          }
+
+
+
+          if (card_3.img !== card_4.img){
+            if (card_3.flipped == true && card_4.flipped == true) {
+                setTimeout(function() { card_3.flipped = false }, 1000);
+                setTimeout(function() { card_4.flipped = false }, 1000);
+                setTimeout(function() {
+                  if (player2.yourTurn = true) {
+                    player2.yourTurn = false;
+                    player1.yourTurn = true;
+                    MatchList.splice(0,4);
+                  }
+                }, 1000);
+            }
+          }
+
+
+
+        }
+
+
+        }
+
+
+
+    ////////////// TURN FUNCTION ///////////////////////////
+    function turn() {
+        this.style.transform = "rotateY(180deg)";
+    }
+
+    </script>
+
+  </body>
+</html>
