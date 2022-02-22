@@ -1,0 +1,139 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Address Book</title>
+    <link rel="stylesheet" href="style.css">
+   <script src="javascript.js"></script>
+</head>
+
+<body>
+
+  <div class="FULL_container">
+
+    <div class="search_container">
+      <div class="form">
+        <input type="text" id = "search" onkeyup="Hide()" placeholder="Search for conatacts">
+        <button type="button" id="search_button" onclick="searchFunction()">Submit</button>
+        <select id = "select" name="search_by">
+          <option value="navn">Name</option>
+          <option value="tlf">Phone</option>
+          <option value="mail">Email</option>
+        </select>
+      </div>
+
+      <div >
+        <button type="button" id="display_all_button" onclick="displayAll()">Display All Contacts</button>
+
+        <select id = "font-select" class="" name="font-select" >
+        <!--  <option value="Default">Default Setting</option> -->
+          <option value="Squada">Squada One</option>
+          <option value="Noto">Noto Sans</option>
+          <option value="Sri">Sriracha</option>
+        </select>
+        <button type="button" id="font_button" onclick="fontChange()">Change</button>
+
+
+      </div>
+
+
+
+    </div>
+
+    <div class="add_container">
+      <div class="add_entry">
+        <h1>Add entry</h1>
+        <button class = "x_button "type="button" onclick="">X</button>
+      </div>
+
+
+      <form>
+        <div class="form">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" value="">
+        </div>
+
+        <div class="form">
+          <label for="tel">Tel:</label>
+          <input type="text" id="tel" name="tel" value="">
+        </div>
+
+        <div class="form">
+          <label for="email">Email:</label>
+          <input type="text" id="email" name="email" value="">
+        </div>
+
+        <div class="add_button">
+          <button type="button" id="button" onclick="validateForm()">Add</button>
+        </div>
+
+      </form>
+
+    </div>
+
+    <br>
+
+    <div id = 'book_container' class="book_container">
+
+      <div class="each_container" id="dummy_1">
+        <div class="contact_info">
+          <ul>
+            <li>Ole</li>
+            <li>91303089</li>
+            <li><a href="mailto:email_content">Ole@hotmail.no</a></li>
+          </ul>
+        </div>
+        <div class="knapper">
+          <button type="button" onclick="delete_1()"><img src="delete_button.png" class="img_size"></button>
+          <button type="button" onclick="edit_1()"><img src="edit_button.png" class="img_size"></button>
+        </div>
+      </div>
+
+      <div class="each_container" id="dummy_2">
+        <div class="contact_info">
+          <ul>
+            <li>Dole</li>
+            <li>12345678</li>
+            <li><a href="mailto:email_content">dole@hotmail.no</a></li>
+          </ul>
+        </div>
+        <div class="knapper">
+          <button type="button" onclick="delete_2()"><img src="delete_button.png" class="img_size"></button>
+          <button type="button" onclick="edit_2()"><img src="edit_button.png" class="img_size"></button>
+        </div>
+      </div>
+
+      <div class="each_container" id="dummy_3">
+        <div class="contact_info">
+          <ul>
+            <li>Doffen</li>
+            <li>41061232</li>
+            <li><a href="mailto:email_content">doffen@hotmail.no</a></li>
+          </ul>
+        </div>
+        <div class="knapper">
+          <button type="button" onclick="delete_3()"><img src="delete_button.png" class="img_size"></button>
+          <button type="button" onclick="edit_3()"><img src="edit_button.png" class="img_size"></button>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+</html>
